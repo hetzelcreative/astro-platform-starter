@@ -1,30 +1,106 @@
 ---
-import Logo from '../components/Logo.astro';
-
 const navItems = [
-    { linkText: 'Home', href: '/' },
-    { linkText: 'Revalidation', href: '/revalidation' },
-    { linkText: 'Image CDN', href: '/image-cdn' },
-    { linkText: 'Edge Function', href: '/edge' },
-    { linkText: 'Blobs', href: '/blobs' }
+    { linkText: 'HOME', href: '/' },
+    {
+        linkText: 'SERVICES',
+        href: '/services',
+        dropdown: [
+            { linkText: 'Service 1', href: '/services/service-1' },
+            { linkText: 'Service 2', href: '/services/service-2' },
+            { linkText: 'Service 3', href: '/services/service-3' },
+            { linkText: 'Service 4', href: '/services/service-4' },
+            { linkText: 'Service 5', href: '/services/service-5' }
+        ]
+    },
+    { linkText: 'ABOUT', href: '/about' },
+    { linkText: 'REVIEWS', href: '/reviews' },
+    { linkText: 'CONTACT', href: '/contact' }
 ];
+
+const location = { city: 'COUNCIL BLUFFS', phone: '(555) 123-4567' };
 ---
 
-<nav class="flex flex-wrap items-center gap-4 pt-6 pb-16 sm:pt-12 sm:pb-24">
-    <a href="/">
-        <Logo />
-    </a>
-    {
-        !!navItems?.length && (
-            <ul class="flex flex-wrap gap-x-4 gap-y-1">
+<header>
+    <!-- Main header with logo and CTA -->
+    <div class="bg-white border-b border-gray-200">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex flex-wrap items-center justify-between gap-6">
+                <!-- Logo -->
+                <a href="/" class="no-underline flex-shrink-0">
+                    <div class="text-2xl md:text-4xl font-black tracking-tight uppercase text-black">
+                        Company Name
+                    </div>
+                </a>
+
+                <!-- Contact and CTA -->
+                <div class="flex items-center gap-6">
+                    <!-- Phone and Location -->
+                    <a href={`tel:${location.phone.replace(/\D/g, '')}`} class="hidden md:flex items-center gap-2 no-underline hover:opacity-80 transition-opacity">
+                        <span class="text-orange-500 font-bold text-sm">{location.city}</span>
+                        <span class="text-black font-semibold text-lg">{location.phone}</span>
+                    </a>
+
+                    <!-- CTA Button -->
+                    <a href="/contact" class="flex-shrink-0 inline-flex items-center justify-center gap-2 bg-orange-500 text-white px-6 py-3 font-bold text-sm uppercase tracking-wide no-underline hover:bg-orange-600 transition-colors shadow-lg rounded">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                        Get an Estimate
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation bar with black background -->
+    <nav class="bg-black">
+        <div class="container mx-auto px-6">
+            <ul class="flex flex-wrap items-center justify-center gap-1 py-3">
                 {navItems.map((item) => (
-                    <li>
-                        <a href={item.href} class="inline-block px-1.5 py-1 sm:px-3 sm:py-2">
-                            {item.linkText}
-                        </a>
+                    <li class="relative group">
+                        {item.dropdown ? (
+                            <>
+                                <button
+                                    class="text-white font-bold text-sm px-4 py-2 no-underline hover:text-orange-500 transition-colors uppercase tracking-wide whitespace-nowrap flex items-center gap-1"
+                                >
+                                    {item.linkText}
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+                                <div class="absolute left-0 mt-2 w-48 bg-white rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                    <ul class="py-2">
+                                        {item.dropdown.map((subItem) => (
+                                            <li>
+                                                <a
+                                                    href={subItem.href}
+                                                    class="block px-4 py-2 text-black hover:bg-orange-500 hover:text-white no-underline font-semibold text-sm transition-colors"
+                                                >
+                                                    {subItem.linkText}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </>
+                        ) : (
+                            <a
+                                href={item.href}
+                                class="text-white font-bold text-sm px-4 py-2 no-underline hover:text-orange-500 transition-colors uppercase tracking-wide whitespace-nowrap"
+                            >
+                                {item.linkText}
+                            </a>
+                        )}
                     </li>
                 ))}
             </ul>
-        )
+        </div>
+    </nav>
+</header>
+
+<style>
+    /* Ensure dropdown appears above other content */
+    .group:hover .absolute {
+        display: block;
     }
-</nav>
+</style>

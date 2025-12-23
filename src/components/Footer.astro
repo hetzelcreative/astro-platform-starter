@@ -1,9 +1,218 @@
 ---
+const currentYear = new Date().getFullYear();
 
+// NAP Information
+const businessInfo = {
+    name: 'Company Name',
+    address: {
+        street: '123 Main Street',
+        city: 'Council Bluffs',
+        state: 'IA',
+        zip: '51501'
+    },
+    phone: '(555) 123-4567',
+    phoneRaw: '5551234567'
+};
+
+const officeHours = [
+    { day: 'MONDAY', hours: '8 AM - 5 PM' },
+    { day: 'TUESDAY', hours: '8 AM - 5 PM' },
+    { day: 'WEDNESDAY', hours: '8 AM - 5 PM' },
+    { day: 'THURSDAY', hours: '8 AM - 5 PM' },
+    { day: 'FRIDAY', hours: '8 AM - 5 PM' }
+];
+
+const quickLinks = [
+    { text: 'ABOUT US', href: '/about' },
+    { text: 'OUR REVIEWS', href: '/reviews' },
+    { text: 'SERVICE AREA', href: '/service-area' },
+    { text: 'OUR WORK', href: '/our-work' },
+    { text: 'INFORMATION', href: '/information' }
+];
+
+const socialLinks = [
+    { name: 'Facebook', icon: 'facebook', href: '#' },
+    { name: 'Instagram', icon: 'instagram', href: '#' },
+    { name: 'TikTok', icon: 'tiktok', href: '#' },
+    { name: 'LinkedIn', icon: 'linkedin', href: '#' },
+    { name: 'YouTube', icon: 'youtube', href: '#' }
+];
+
+// Schema.org structured data for SEO
+const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": businessInfo.name,
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": businessInfo.address.street,
+        "addressLocality": businessInfo.address.city,
+        "addressRegion": businessInfo.address.state,
+        "postalCode": businessInfo.address.zip,
+        "addressCountry": "US"
+    },
+    "telephone": businessInfo.phone
+};
 ---
 
-<footer class="pt-16 pb-12 sm:pt-24 sm:pb-16">
-    <p class="text-sm">
-        <a href="https://docs.netlify.com/frameworks/astro/" class="decoration-dashed text-primary underline-offset-8"> Astro on Netlify </a>
-    </p>
+<footer class="bg-black text-white">
+    <!-- NAP Section for SEO -->
+    <div class="bg-gray-900 border-b border-gray-800 py-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+                <!-- Business Name -->
+                <div itemscope itemtype="https://schema.org/LocalBusiness">
+                    <h3 class="text-sm font-bold text-orange-500 mb-2 uppercase tracking-wide">Business Name</h3>
+                    <p class="text-xl font-black text-white" itemprop="name">{businessInfo.name}</p>
+                </div>
+                <!-- Address -->
+                <div itemscope itemtype="https://schema.org/PostalAddress">
+                    <h3 class="text-sm font-bold text-orange-500 mb-2 uppercase tracking-wide">Address</h3>
+                    <p class="text-xl font-bold text-white">
+                        <span itemprop="streetAddress">{businessInfo.address.street}</span><br />
+                        <span itemprop="addressLocality">{businessInfo.address.city}</span>, <span itemprop="addressRegion">{businessInfo.address.state}</span> <span itemprop="postalCode">{businessInfo.address.zip}</span>
+                    </p>
+                </div>
+                <!-- Phone -->
+                <div>
+                    <h3 class="text-sm font-bold text-orange-500 mb-2 uppercase tracking-wide">Phone</h3>
+                    <a href={`tel:${businessInfo.phoneRaw}`} class="text-xl font-black text-white hover:text-orange-500 transition-colors no-underline" itemprop="telephone">
+                        {businessInfo.phone}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Footer Content -->
+    <div class="py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+                <!-- Left Column - Hours -->
+                <div>
+                    <h3 class="text-3xl font-black text-orange-500 mb-6">Available 24/7</h3>
+                    <h4 class="text-xl font-bold mb-4">Office Hours</h4>
+                    <div class="space-y-2">
+                        {
+                            officeHours.map((schedule) => (
+                                <div class="flex justify-between">
+                                    <span class="font-bold">{schedule.day}:</span>
+                                    <span>{schedule.hours}</span>
+                                </div>
+                            ))
+                        }
+                    </div>
+                    <div class="mt-6 flex gap-6 text-sm">
+                        <div>
+                            <span class="font-bold">LIC #34071</span>
+                        </div>
+                        <div>
+                            <span class="font-bold">LIC #1800193</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center Column - Logo & Contact -->
+                <div class="text-center">
+                    <a href="/" class="inline-block mb-6">
+                        <div class="text-3xl md:text-4xl font-black tracking-tight uppercase">
+                            <span class="text-white">{businessInfo.name.split(' ')[0]}</span>
+                            <span class="text-orange-500"> {businessInfo.name.split(' ').slice(1).join(' ')}</span>
+                        </div>
+                    </a>
+                    <a href={`tel:${businessInfo.phoneRaw}`} class="block text-4xl font-black text-orange-500 mb-6 no-underline hover:text-orange-400 transition-colors">
+                        {businessInfo.phone}
+                    </a>
+                    <a
+                        href="/contact"
+                        class="inline-block bg-orange-500 text-white px-8 py-3 font-black text-lg uppercase tracking-wide no-underline hover:bg-orange-600 transition-colors rounded mb-6"
+                    >
+                        FREE ESTIMATE
+                    </a>
+                    <div class="flex justify-center gap-3">
+                        {
+                            socialLinks.map((social) => (
+                                <a
+                                    href={social.href}
+                                    class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-black hover:bg-orange-500 hover:text-white transition-colors no-underline"
+                                    aria-label={social.name}
+                                >
+                                    {social.icon === 'facebook' && (
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
+                                        </svg>
+                                    )}
+                                    {social.icon === 'instagram' && (
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                                        </svg>
+                                    )}
+                                    {social.icon === 'tiktok' && (
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+                                        </svg>
+                                    )}
+                                    {social.icon === 'linkedin' && (
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
+                                        </svg>
+                                    )}
+                                    {social.icon === 'youtube' && (
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+                                        </svg>
+                                    )}
+                                </a>
+                            ))
+                        }
+                    </div>
+                </div>
+
+                <!-- Right Column - Quick Links -->
+                <div>
+                    <h3 class="text-3xl font-black text-orange-500 mb-6">Quick Links</h3>
+                    <div class="space-y-3">
+                        {
+                            quickLinks.map((link) => (
+                                <a
+                                    href={link.href}
+                                    class="block bg-white text-black text-center font-bold py-3 px-6 rounded no-underline hover:bg-orange-500 hover:text-white transition-colors uppercase tracking-wide"
+                                >
+                                    {link.text}
+                                </a>
+                            ))
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Google Map -->
+    <div class="w-full h-96">
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.1841968336836!2d-73.98823492346377!3d40.75797937138966!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c6480299%3A0x55194ec5a1ae072e!2sTimes%20Square!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus"
+            width="100%"
+            height="100%"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Company Location Map"></iframe>
+    </div>
+
+    <!-- Copyright -->
+    <div class="bg-gray-900 py-6">
+        <div class="container mx-auto px-6">
+            <p class="text-center text-sm">
+                © Copyright {currentYear} {businessInfo.name}. All Rights Reserved. |
+                <a href="/privacy-policy" class="hover:text-orange-500 transition-colors no-underline">Privacy Policy</a> |
+                <a href="/sitemap" class="hover:text-orange-500 transition-colors no-underline">Sitemap</a>
+            </p>
+        </div>
+    </div>
 </footer>
+
+<!-- JSON-LD Schema for SEO -->
+<script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+

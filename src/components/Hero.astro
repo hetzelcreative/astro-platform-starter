@@ -1,0 +1,27 @@
+---
+import { getHomepage } from '../sanity/queries';
+const homepage = await getHomepage();
+---
+
+<section
+    class="relative bg-cover bg-center py-32 md:py-40"
+    style="background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1920&q=80');"
+>
+    <div class="container mx-auto px-6">
+        <div class="max-w-3xl">
+            <h1 class="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
+                {homepage?.heroTitle}
+            </h1>
+            <p class="text-xl md:text-2xl text-white mb-8 leading-relaxed">
+                We provide top-quality service with over 20 years of experience. Our expert team is dedicated to delivering exceptional results for your home or
+                business.
+            </p>
+            <a
+                href="/contact"
+                class="inline-flex items-center justify-center gap-2 bg-orange-500 text-white px-8 py-4 font-bold text-lg uppercase tracking-wide no-underline hover:bg-orange-600 transition-colors shadow-xl rounded"
+            >
+                Schedule Service Today
+            </a>
+        </div>
+    </div>
+</section>
