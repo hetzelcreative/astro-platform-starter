@@ -7,8 +7,8 @@ export default defineConfig({
     name: 'default',
     title: 'Company Name CMS',
 
-    projectId: 'qnvrf2dl',
-    dataset: 'production',
+    projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID || '',
+    dataset: import.meta.env.PUBLIC_SANITY_DATASET || 'production',
 
     plugins: [
         structureTool({

@@ -3,6 +3,7 @@ import netlify from '@astrojs/netlify';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 import sanityIntegration from '@sanity/astro';
+import 'dotenv/config';
 
 // https://astro.build/config
 export default defineConfig({
@@ -12,8 +13,8 @@ export default defineConfig({
     integrations: [
         react(),
         sanityIntegration({
-            projectId: 'qnvrf2dl',
-            dataset: 'production',
+            projectId: process.env.PUBLIC_SANITY_PROJECT_ID,
+            dataset: process.env.PUBLIC_SANITY_DATASET || 'production',
             useCdn: false,
             apiVersion: '2024-01-01',
             studioBasePath: '/studio'

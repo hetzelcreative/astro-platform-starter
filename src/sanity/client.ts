@@ -3,9 +3,9 @@ import imageUrlBuilder from '@sanity/image-url';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 export const client = createClient({
-    projectId: 'qnvrf2dl',
-    dataset: 'production',
-    useCdn: false, // Use CDN in production for faster responses
+    projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
+    dataset: import.meta.env.PUBLIC_SANITY_DATASET || 'production',
+    useCdn: import.meta.env.PROD, // Use CDN in production for faster responses
     apiVersion: '2024-01-01'
 });
 
